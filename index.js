@@ -4,21 +4,23 @@ import { randomUUID } from "crypto";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-function randomDigits(length) {
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+function randomString(length) {
   let result = "";
   for (let i = 0; i < length; i++) {
-    result += Math.floor(Math.random() * 10);
+    result += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
   }
   return result;
 }
 
 function generatePremiumUUID() {
-  const part1 = randomDigits(5);
-  const part2 = randomDigits(4);
-  const part3 = randomDigits(5);
-  const part4 = randomDigits(4);
-  const part5 = randomDigits(6);
-  return `YZ-${part1}-${part2}-${part3}-${part4}-${part5}`;
+  const part1 = randomString(5);
+  const part2 = randomString(4);
+  const part3 = randomString(5);
+  const part4 = randomString(4);
+  const part5 = randomString(6);
+  return `YZ-\( {part1}- \){part2}-\( {part3}- \){part4}-${part5}`;
 }
 
 app.get("/api/uuid", (req, res) => {
