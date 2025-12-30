@@ -1,7 +1,5 @@
-import express from "express";
-
-const app = express();
-const PORT = process.env.PORT || 3000;
+const express = require("express");
+const router = express.Router();
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -22,13 +20,25 @@ function generatePremiumUUID() {
   return `YZ-${part1}-${part2}-${part3}-${part4}-${part5}`;
 }
 
-app.get("/api/uuid", (req, res) => {
-  res.json({
+router.get("/uuid", (req, res) => {
+  res.status(200).json({
     result: generatePremiumUUID(),
     version: "v8",
+    timestamp: new Date().toISOString(),
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+const app = express();
+app.use("/api", router);
+
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
 });
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+module.exports = app;
