@@ -50,7 +50,7 @@ function generatePremiumUUIDv8() {
 router.get("/uuid", (req, res) => {
   res.status(200).json({
     result: generatePremiumUUIDv8(),
-    version: "UUID v8 (custom-secure)",
+    version: "v8",
     issued_at: new Date().toISOString(),
   });
 });
