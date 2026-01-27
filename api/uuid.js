@@ -51,7 +51,6 @@ router.get("/uuid", (req, res) => {
   res.status(200).json({
     result: generatePremiumUUIDv8(),
     version: "v8",
-    issued_at: new Date().toISOString(),
   });
 });
 
